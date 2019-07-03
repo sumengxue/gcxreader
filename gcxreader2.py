@@ -1,5 +1,5 @@
 #!/bin/python
-lastReadingCharacters = 10000
+lastReadingCharacters = 14824
 width = 1100
 height = 800
 columnMargin = 100
@@ -9,6 +9,7 @@ fontSize = 14
 lastRow = 10
 foreGroundColor = 'grey'
 backGroundColor = 'white'
+bookName = 'test.txt'
 #### Imports
 import _thread
 from tkinter import *
@@ -26,6 +27,7 @@ rootWindow.configure(bg = backGroundColor)
 
 #### Read bookValue
 normalFont = tkFont.Font(family = 'Source Code Pro', size = fontSize)
+if sys.argv[1] == '':
 text = codecs.open(sys.argv[1], 'r', 'gbk').read()
 text2 = text.replace('\r', ' ').replace('\n', ' ')
 
@@ -40,6 +42,7 @@ maxColumn = []
 maxLine = 0
 pythonFile = 0
 otherCodes = 0
+firstLineOfPage = 0
 #### New thread to prepare to write sitting (codes)
 def readMyself():
     global pythonFile
@@ -79,7 +82,8 @@ def turnPage(event):
     global pointerListPointer
     global nowRow
     global text2
-
+    global firstLineOfPage
+    firstLineOfPage = nowRow
     rowStack.append(nowRow)
     for widget in rootWindow.winfo_children():
         widget.destroy()
@@ -119,8 +123,8 @@ def turnLeft(event):
 #### Close with Saving
 def closeWithSaving():
     global otherCodes
-    newScriptFileValue = '#!/bin/python\nlastReadingCharacters = ' + str(maxColumn[nowRow]) + '\n' + otherCodes
-    print(newScriptFileValue)
+    newScriptFileValue = '#!/bin/python\nlastReadingCharacters = ' + str(maxColumn[firstLineOfPage]) + '\n' + otherCodes
+    open(__file__, 'w').write(newScriptFileValue)
     exit(0)
 
 #### Environment init
