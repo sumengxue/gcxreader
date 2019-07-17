@@ -1,18 +1,8 @@
 #!/bin/python3
-from theme import *
-lastReadingCharacters = 21027
-width = 1200
-height = 800
-columnMargin = 30
-rowMargin = 30
-centerMargin = 40
-fontSize = 14
-lastRow = 13
-foreGroundColor = '#4D5139'
-backGroundColor = selectColor
-bookName = 'test.txt'
 #### Imports
 from theme import *
+from config import *
+from progress import *
 import _thread
 from tkinter import *
 import tkinter.font as tkFont
@@ -27,16 +17,20 @@ windowPositionX = (rootWindow.winfo_screenwidth() - width) / 2
 windowPositionY = (rootWindow.winfo_screenheight() - height) / 2
 rootWindow.geometry('%dx%d+%d+%d' % (width, height, windowPositionX, windowPositionY))
 rootWindow.configure(bg = backGroundColor)
-
+#### Read last reading progress
+if bookName in progressDictionary:
+    lastReadingCharacters = progressDictionary[bookName]
+else:
+    lastReadingCharacters = 0
 #### Read bookValue
-normalFont = tkFont.Font(family = 'Source Code Pro', size = fontSize)
 if len(sys.argv) >= 2 and sys.argv[1] == '' or len(sys.argv) == 1:
     text = codecs.open(bookName, 'r').read()
 else:
+    bookName = sys.argv[1]
     text = codecs.open(sys.argv[1], 'r').read()
 text2 = text.replace('\r', ' ').replace('\n', ' ')
-
 #### Global varibles
+normalFont = tkFont.Font(family = 'Source Code Pro', size = fontSize)
 characterPointer = lastReadingCharacters
 rowLimit = (height) // (fontSize * 2.55)
 nowRow = 0
@@ -57,16 +51,6 @@ if len(sys.argv) >= 3 and sys.argv[2] != '':
 #### Last reading progressing dealing
 if calculatePointer >= textLength:
     calculatePointer = 0
-#### New thread to prepare to write sitting (codes)
-def readMyself():
-    global pythonFile
-    global otherCodes
-    pythonFile = open(__file__, 'r')
-    pythonFile.readline()
-    pythonFile.readline()
-    otherCodes = pythonFile.read()
-_thread.start_new_thread(readMyself, ())
-
 #### thread calculating
 def calculateMaxColumn():
     global textLength
@@ -89,7 +73,6 @@ def calculateMaxColumn():
         maxColumn.append(calculatePointer)
         maxLine += 1
 _thread.start_new_thread(calculateMaxColumn, ())
-
 #### display
 def turnPage(event):
     global rowLimit
@@ -143,9 +126,16 @@ def turnLeft(event):
 
 #### Close with Saving
 def closeWithSaving():
-    global otherCodes
-    newScriptFileValue = '#!/bin/python\nlastReadingCharacters = ' + str(maxColumn[firstLineOfPage]) + '\n' + otherCodes
-#    open(__file__, 'w').write(newScriptFileValue)
+    global nowRow
+    progressDictionary[bookName] = nowRow
+    print(bookName)
+    print(progressDictionary)
+    progressFile = open('progress.py', 'w')
+    progressFile.write('progressDictionary = {\n')
+    for key, value in progressDictionary.items():
+        progressFile.write('\t\'%s\':%s,\n' % (key, value))
+    progressFile.write('}')
+    progressFile.close()
     exit(0)
 
 #### Environment init
