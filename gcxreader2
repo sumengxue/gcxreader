@@ -1,5 +1,5 @@
 #!/bin/python
-lastReadingCharacters = 38057
+lastReadingCharacters = 21027
 width = 1200
 height = 800
 columnMargin = 30
@@ -7,8 +7,8 @@ rowMargin = 30
 centerMargin = 40
 fontSize = 14
 lastRow = 13
-foreGroundColor = '#404040'
-backGroundColor = 'white'
+foreGroundColor = '#4D5139'
+backGroundColor = '#DAC9A6'
 bookName = 'test.txt'
 #### Imports
 import _thread
