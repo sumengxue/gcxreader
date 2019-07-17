@@ -1,4 +1,5 @@
-#!/bin/python
+#!/bin/python3
+from theme import *
 lastReadingCharacters = 21027
 width = 1200
 height = 800
@@ -8,16 +9,17 @@ centerMargin = 40
 fontSize = 14
 lastRow = 13
 foreGroundColor = '#4D5139'
-backGroundColor = '#DAC9A6'
+backGroundColor = selectColor
 bookName = 'test.txt'
 #### Imports
+from theme import *
 import _thread
 from tkinter import *
 import tkinter.font as tkFont
 import codecs
 import time
 import sys
-
+import random
 #### GUI init
 rootWindow = Tk()
 rootWindow.title('gcxReader')
@@ -46,6 +48,9 @@ maxLine = 0
 pythonFile = 0
 otherCodes = 0
 firstLineOfPage = 0
+paragraphMark = set()
+colorNumber = len(selectTheme)
+foreGroundColor = selectTheme[random.randint(0, colorNumber - 1)]
 #### Arguments dealing
 if len(sys.argv) >= 3 and sys.argv[2] != '':
     calculatePointer = int(textLength * float(sys.argv[2]))
@@ -75,6 +80,7 @@ def calculateMaxColumn():
         while pixelFontLength < tempLimit and calculatePointer < textLength:
             if text[calculatePointer] == '\n' or text[calculatePointer] == '\r':
                 calculatePointer += 1
+                paragraphMark.add(len(maxColumn))
                 break
             else:
                 tempLine += text[calculatePointer]
@@ -92,6 +98,7 @@ def turnPage(event):
     global nowRow
     global text2
     global firstLineOfPage
+    global foreGroundColor
     firstLineOfPage = nowRow
     rowStack.append(nowRow)
     for widget in rootWindow.winfo_children():
@@ -103,7 +110,10 @@ def turnPage(event):
     yStart = columnMargin / width
     relheight = (height - 2 * rowMargin) / rowLimit / height
     relwidth = (width - columnMargin - centerMargin - columnMargin) / 2 / width
+
     while nowRow < expectedRow:
+        if nowRow in paragraphMark:
+            foreGroundColor = selectTheme[random.randint(0, colorNumber - 1)]
         rely = (nowRow - originRow) *  rowHeight + rowMargin / width
         Label(rootWindow, text = text2[maxColumn[nowRow]:maxColumn[nowRow + 1]], font = normalFont, fg = foreGroundColor, bg = backGroundColor, justify = LEFT, anchor = N + W).place(relheight = relheight, relwidth = relwidth, relx = relx, rely = rely)
         nowRow += 1
@@ -113,6 +123,8 @@ def turnPage(event):
     originRow = nowRow
     relx = (width / 2 + centerMargin / 2) / width
     while nowRow < expectedRow:
+        if nowRow in paragraphMark:
+            foreGroundColor = selectTheme[random.randint(0, colorNumber - 1)]
         rely = (nowRow - originRow) *  rowHeight + rowMargin / width
         Label(rootWindow, text = text2[maxColumn[nowRow]:maxColumn[nowRow + 1]], font = normalFont, fg = foreGroundColor, bg = backGroundColor, justify = LEFT, anchor = N + W).place(relheight = relheight, relwidth = relwidth, relx = relx, rely = rely)
         nowRow += 1
@@ -133,7 +145,7 @@ def turnLeft(event):
 def closeWithSaving():
     global otherCodes
     newScriptFileValue = '#!/bin/python\nlastReadingCharacters = ' + str(maxColumn[firstLineOfPage]) + '\n' + otherCodes
-    open(__file__, 'w').write(newScriptFileValue)
+#    open(__file__, 'w').write(newScriptFileValue)
     exit(0)
 
 #### Environment init
