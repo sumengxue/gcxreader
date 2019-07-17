@@ -17,11 +17,6 @@ windowPositionX = (rootWindow.winfo_screenwidth() - width) / 2
 windowPositionY = (rootWindow.winfo_screenheight() - height) / 2
 rootWindow.geometry('%dx%d+%d+%d' % (width, height, windowPositionX, windowPositionY))
 rootWindow.configure(bg = backGroundColor)
-#### Read last reading progress
-if bookName in progressDictionary:
-    lastReadingCharacters = progressDictionary[bookName]
-else:
-    lastReadingCharacters = 0
 #### Read bookValue
 if len(sys.argv) >= 2 and sys.argv[1] == '' or len(sys.argv) == 1:
     text = codecs.open(bookName, 'r').read()
@@ -29,8 +24,17 @@ else:
     bookName = sys.argv[1]
     text = codecs.open(sys.argv[1], 'r').read()
 text2 = text.replace('\r', ' ').replace('\n', ' ')
+#### Read last reading progress
+if bookName in progressDictionary:
+    lastReadingCharacters = progressDictionary[bookName]
+else:
+    lastReadingCharacters = 666
+print('lR:%d' % (lastReadingCharacters))
+#### Arguments dealing
+if len(sys.argv) >= 3 and sys.argv[2] != '':
+    calculatePointer = int(textLength * float(sys.argv[2]))
 #### Global varibles
-normalFont = tkFont.Font(family = 'Source Code Pro', size = fontSize)
+normalFont = tkFont.Font(family = fontName, size = fontSize)
 characterPointer = lastReadingCharacters
 rowLimit = (height) // (fontSize * 2.55)
 nowRow = 0
@@ -45,12 +49,10 @@ firstLineOfPage = 0
 paragraphMark = set()
 colorNumber = len(selectTheme)
 foreGroundColor = selectTheme[random.randint(0, colorNumber - 1)]
-#### Arguments dealing
-if len(sys.argv) >= 3 and sys.argv[2] != '':
-    calculatePointer = int(textLength * float(sys.argv[2]))
 #### Last reading progressing dealing
 if calculatePointer >= textLength:
     calculatePointer = 0
+print('in Last, cP %d' % (calculatePointer))
 #### thread calculating
 def calculateMaxColumn():
     global textLength
@@ -127,8 +129,8 @@ def turnLeft(event):
 #### Close with Saving
 def closeWithSaving():
     global nowRow
-    progressDictionary[bookName] = nowRow
-    print(bookName)
+    progressDictionary[bookName] = maxColumn[nowRow - 1]
+    print(maxColumn[nowRow])
     print(progressDictionary)
     progressFile = open('progress.py', 'w')
     progressFile.write('progressDictionary = {\n')
