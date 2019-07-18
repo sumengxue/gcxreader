@@ -114,7 +114,7 @@ def turnPage(event):
         Label(rootWindow, text = text2[maxColumn[nowRow]:maxColumn[nowRow + 1]], font = normalFont, fg = foreGroundColor, bg = backGroundColor, justify = LEFT, anchor = N + W).place(relheight = relheight, relwidth = relwidth, relx = relx, rely = rely)
         nowRow += 1
 
-        rootWindow.title('%.1f' % (maxColumn[nowRow - 1] / textLength * 100) + '%')
+        rootWindow.title('gcxreader - %.1f' % (maxColumn[nowRow - 1] / textLength * 100) + '%')
 
 #### Events listener
 def turnLeft(event):
