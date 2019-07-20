@@ -1,7 +1,7 @@
-##gcxreader
+## gcxreader
 ***
 gcxreader is a good-looking and clearest txt file reader base on Python3.The looking is like this:
-![image](https://github.com/gcxreader/screenshot1.png)
+![image](https://github.com/Gwilight/gcxreader/blob/master/screenshot1.png)
 ***
 If you decade to try it , you should:
 1. Clone it from github
@@ -22,7 +22,7 @@ The second argument is a float number from 0.00 to 1.00
 
 ***
 You can select a good-looking theme by edit the theme file ***theme.py*** with Python3 grammar.The theme file is like that:
-![image](https://github.com/gcxreader/screenshot2.png)
+![image](https://github.com/Gwilight/gcxreader/blob/master/screenshot2.png)
 (A good place to select color:[nipponcolors.com](http://nipponcolors.com/))
 ***
 Thank you for trying the imperfect reader.If you want to communicate with author gcx, you can send email to 502134295@qq.com (a lonely address...)
