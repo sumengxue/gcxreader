@@ -29,7 +29,6 @@ if bookName in progressDictionary:
     lastReadingCharacters = progressDictionary[bookName]
 else:
     lastReadingCharacters = 666
-print('lR:%d' % (lastReadingCharacters))
 #### Arguments dealing
 if len(sys.argv) >= 3 and sys.argv[2] != '':
     calculatePointer = int(textLength * float(sys.argv[2]))
@@ -52,7 +51,6 @@ foreGroundColor = selectTheme[random.randint(0, colorNumber - 1)]
 #### Last reading progressing dealing
 if calculatePointer >= textLength:
     calculatePointer = 0
-print('in Last, cP %d' % (calculatePointer))
 #### thread calculating
 def calculateMaxColumn():
     global textLength
@@ -114,7 +112,7 @@ def turnPage(event):
         Label(rootWindow, text = text2[maxColumn[nowRow]:maxColumn[nowRow + 1]], font = normalFont, fg = foreGroundColor, bg = backGroundColor, justify = LEFT, anchor = N + W).place(relheight = relheight, relwidth = relwidth, relx = relx, rely = rely)
         nowRow += 1
 
-        rootWindow.title('gcxreader - %.1f' % (maxColumn[nowRow - 1] / textLength * 100) + '%')
+        rootWindow.title('%s - %.1f' % (bookName.split('.')[0], maxColumn[nowRow - 1] / textLength * 100) + '%')
 
 #### Events listener
 def turnLeft(event):
@@ -130,8 +128,6 @@ def turnLeft(event):
 def closeWithSaving():
     global nowRow
     progressDictionary[bookName] = maxColumn[nowRow - 1]
-    print(maxColumn[nowRow])
-    print(progressDictionary)
     progressFile = open('progress.py', 'w')
     progressFile.write('progressDictionary = {\n')
     for key, value in progressDictionary.items():
