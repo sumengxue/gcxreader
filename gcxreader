@@ -147,7 +147,6 @@ def closeWelcomeMessage():
 _thread.start_new_thread(closeWelcomeMessage, ())
 
 #### Events binds
-rootWindow.bind('<Right>', turnPage)
-rootWindow.bind('<Left>', turnLeft)
+from keybind import *
 rootWindow.protocol('WM_DELETE_WINDOW', closeWithSaving)
 mainloop()

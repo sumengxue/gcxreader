@@ -1,0 +1,10 @@
+#/bin/bash
+comment="$1$2$3$4$5$6$7$8$9"
+if [ "$comment" = "" ]
+then
+	comment=$(date "+Updated at %H:%M:%S %m.%d %Y")
+fi
+git add . 
+git commit -m "$comment" 
+git push -u origin master
+
