@@ -46,8 +46,8 @@ pythonFile = 0
 otherCodes = 0
 firstLineOfPage = 0
 paragraphMark = set()
-colorNumber = len(selectTheme)
-foreGroundColor = selectTheme[random.randint(0, colorNumber - 1)]
+colorNumber = len(theme)
+foreGroundColor = theme[random.randint(0, colorNumber - 1)]
 #### Last reading progressing dealing
 if calculatePointer >= textLength:
     calculatePointer = 0
@@ -96,7 +96,7 @@ def turnPage(event):
 
     while nowRow < expectedRow:
         if nowRow in paragraphMark:
-            foreGroundColor = selectTheme[random.randint(0, colorNumber - 1)]
+            foreGroundColor = theme[random.randint(0, colorNumber - 1)]
         rely = (nowRow - originRow) *  rowHeight + rowMargin / width
         Label(rootWindow, text = text2[maxColumn[nowRow]:maxColumn[nowRow + 1]], font = normalFont, fg = foreGroundColor, bg = backGroundColor, justify = LEFT, anchor = N + W).place(relheight = relheight, relwidth = relwidth, relx = relx, rely = rely)
         nowRow += 1
@@ -107,7 +107,7 @@ def turnPage(event):
     relx = (width / 2 + centerMargin / 2) / width
     while nowRow < expectedRow:
         if nowRow in paragraphMark:
-            foreGroundColor = selectTheme[random.randint(0, colorNumber - 1)]
+            foreGroundColor = theme[random.randint(0, colorNumber - 1)]
         rely = (nowRow - originRow) *  rowHeight + rowMargin / width
         Label(rootWindow, text = text2[maxColumn[nowRow]:maxColumn[nowRow + 1]], font = normalFont, fg = foreGroundColor, bg = backGroundColor, justify = LEFT, anchor = N + W).place(relheight = relheight, relwidth = relwidth, relx = relx, rely = rely)
         nowRow += 1
